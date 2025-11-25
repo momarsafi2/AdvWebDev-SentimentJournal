@@ -1,0 +1,79 @@
+{% extends "base.html" %} {% block title %}Dashboard – Sentiment Journal{%
+endblock %} {% block content %}
+<h1>Sentiment Dashboard</h1>
+
+<p>This is a summary of your journal moods.</p>
+
+<div id="summary">
+  <p>Loading sentiment stats...</p>
+</div>
+
+<canvas id="sentimentChart" width="400" height="200"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  async function loadStats() {
+    try {
+      const resp = await fetch("/api/sentiment-summary");
+      if (!resp.ok) {
+        document.getElementById("summary").innerText =
+          "Could not load stats (are you logged in?)";
+        return;
+      }
+      const data = await resp.json();
+
+      const total = data.total || 0;
+      const byLabel = data.by_label || {};
+      const avgScore = data.average_score || 0;
+
+      const summaryDiv = document.getElementById("summary");
+      let html = `<p>Total entries: <strong>${total}</strong></p>`;
+      html += `<p>Average sentiment score: <strong>${avgScore.toFixed(
+        2
+      )}</strong> (−1 = very negative, +1 = very positive)</p>`;
+      if (total === 0) {
+        html += "<p>No entries yet – write a few and come back!</p>";
+      }
+      summaryDiv.innerHTML = html;
+
+      const labels = Object.keys(byLabel);
+      const counts = Object.values(byLabel);
+
+      if (labels.length === 0) {
+        document.getElementById("sentimentChart").style.display = "none";
+        return;
+      }
+
+      const ctx = document.getElementById("sentimentChart").getContext("2d");
+
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: "Number of entries",
+              data: counts,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              precision: 0,
+            },
+          },
+        },
+      });
+    } catch (err) {
+      console.error(err);
+      document.getElementById("summary").innerText = "Error! Login to view";
+    }
+  }
+
+  loadStats();
+</script>
+{% endblock %}

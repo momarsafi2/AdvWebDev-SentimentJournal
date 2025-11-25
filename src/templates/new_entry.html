@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block title %}New Entry{% endblock %} {% block
+content %}
+<h1>Write a New Entry</h1>
+
+<form method="post">
+  <textarea name="text" rows="6" cols="60" maxlength="500" required></textarea
+  ><br />
+  <small><span id="charCount">0</span>/500 characters</small><br />
+  <button type="submit">Save Entry</button>
+</form>
+
+<p><a href="{{ url_for('entries.list_entries') }}">Back to My Entries</a></p>
+
+<script>
+  const textarea = document.querySelector('textarea[name="text"]');
+  const counter = document.getElementById("charCount");
+
+  function updateCount() {
+    counter.textContent = textarea.value.length;
+  }
+
+  textarea.addEventListener("input", updateCount);
+  updateCount();
+</script>
+{% endblock %}

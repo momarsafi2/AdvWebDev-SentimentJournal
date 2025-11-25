@@ -1,0 +1,41 @@
+{% extends "base.html" %} {% block title %}My Entries{% endblock %} {% block
+content %}
+<h1>My Entries</h1>
+
+<p><a href="{{ url_for('entries.new_entry_get') }}">Write a new entry</a></p>
+
+{% if entries %}
+<ul>
+  {% for e in entries %}
+  <li>
+    <strong>{{ e.created_at.strftime("%Y-%m-%d %H:%M") }}</strong><br />
+    {{ e.text }}<br />
+
+    {% if e.sentiment_label %} {% set color = 'green' if e.sentiment_label ==
+    'POSITIVE' else 'red' if e.sentiment_label == 'NEGATIVE' else 'gray' %}
+    <em style="color: {{ color }};">
+      Sentiment: {{ e.sentiment_label }} ({{ "%.2f"|format(e.sentiment_score)
+      }}) </em
+    ><br />
+    {% endif %}
+
+    <a href="{{ url_for('entries.edit_entry_get', entry_id=e.id) }}">Edit</a>
+
+    <form
+      action="{{ url_for('entries.delete_entry', entry_id=e.id) }}"
+      method="post"
+      style="display: inline"
+    >
+      <button type="submit" onclick="return confirm('Delete this entry?');">
+        Delete
+      </button>
+    </form>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>
+  No entries yet.
+  <a href="{{ url_for('entries.new_entry_get') }}">Write your first one.</a>
+</p>
+{% endif %} {% endblock %}

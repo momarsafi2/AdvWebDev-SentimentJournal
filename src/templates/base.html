@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Sentiment Journal{% endblock %}</title>
+  </head>
+  <body>
+    <nav>
+      <a href="{{ url_for('main.index') }}">Home</a> |
+      <a href="{{ url_for('entries.list_entries') }}">My Entries</a> |
+      <a href="{{ url_for('main.dashboard') }}">Dashboard</a> | {% if
+      current_user.is_authenticated %} Logged in as {{ current_user.username }}
+      |
+      <form
+        action="{{ url_for('auth.logout') }}"
+        method="post"
+        style="display: inline"
+      >
+        <button type="submit">Logout</button>
+      </form>
+      {% else %}
+      <a href="{{ url_for('auth.login_get') }}">Login</a> |
+      <a href="{{ url_for('auth.register_get') }}">Register</a>
+      {% endif %}
+    </nav>
+    <hr />
+
+    {% block content %}{% endblock %}
+  </body>
+</html>
