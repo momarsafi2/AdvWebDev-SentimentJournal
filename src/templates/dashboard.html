@@ -1,15 +1,27 @@
 {% extends "base.html" %} {% block title %}Dashboard – Sentiment Journal{%
 endblock %} {% block content %}
-<h1>Sentiment Dashboard</h1>
+<h1 class="h3 mb-3">Sentiment Dashboard</h1>
 
-<p>This is a summary of your journal moods.</p>
+<div class="row">
+  <div class="col-lg-6">
+    <div class="card mb-3 shadow-sm">
+      <div class="card-body" id="summary">
+        <p>Loading sentiment stats...</p>
+      </div>
+    </div>
+  </div>
 
-<div id="summary">
-  <p>Loading sentiment stats...</p>
+  <div class="col-lg-6">
+    <div class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <h2 class="h6 mb-3">Entries by sentiment</h2>
+        <canvas id="sentimentChart" height="150"></canvas>
+      </div>
+    </div>
+  </div>
 </div>
 
-<canvas id="sentimentChart" width="400" height="200"></canvas>
-
+<!-- Chart -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
@@ -17,8 +29,8 @@ endblock %} {% block content %}
     try {
       const resp = await fetch("/api/sentiment-summary");
       if (!resp.ok) {
-        document.getElementById("summary").innerText =
-          "Could not load stats (are you logged in?)";
+        document.getElementById("summary").innerHTML =
+          '<div class="text-danger">Could not load stats (are you logged in?).</div>';
         return;
       }
       const data = await resp.json();
@@ -28,12 +40,12 @@ endblock %} {% block content %}
       const avgScore = data.average_score || 0;
 
       const summaryDiv = document.getElementById("summary");
-      let html = `<p>Total entries: <strong>${total}</strong></p>`;
-      html += `<p>Average sentiment score: <strong>${avgScore.toFixed(
+      let html = `<p class="mb-1">Total entries: <strong>${total}</strong></p>`;
+      html += `<p class="mb-1">Average sentiment score: <strong>${avgScore.toFixed(
         2
-      )}</strong> (−1 = very negative, +1 = very positive)</p>`;
+      )}</strong> <small class="text-muted">(−1 = very negative, +1 = very positive)</small></p>`;
       if (total === 0) {
-        html += "<p>No entries yet – write a few and come back!</p>";
+        html += `<p class="text-muted mb-0">No entries yet – write a few and come back.</p>`;
       }
       summaryDiv.innerHTML = html;
 
@@ -46,7 +58,6 @@ endblock %} {% block content %}
       }
 
       const ctx = document.getElementById("sentimentChart").getContext("2d");
-
       new Chart(ctx, {
         type: "bar",
         data: {
@@ -63,14 +74,15 @@ endblock %} {% block content %}
           scales: {
             y: {
               beginAtZero: true,
-              precision: 0,
+              ticks: { precision: 0 },
             },
           },
         },
       });
     } catch (err) {
       console.error(err);
-      document.getElementById("summary").innerText = "Error! Login to view";
+      document.getElementById("summary").innerHTML =
+        '<div class="text-danger">Error. Login to access.</div>';
     }
   }
 

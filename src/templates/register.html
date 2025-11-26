@@ -1,16 +1,43 @@
 {% extends "base.html" %} {% block title %}Register – Sentiment Journal{%
 endblock %} {% block content %}
-<h1>Register</h1>
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h4 mb-3">Create an Account</h1>
 
-<form method="post">
-  <label>Username: <input name="username" required /></label><br />
-  <label>Email: <input name="email" type="email" required /></label><br />
-  <label>Password: <input name="password" type="password" required /></label
-  ><br />
-  <button type="submit">Create account</button>
-</form>
+        <form method="post">
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input name="username" type="text" class="form-control" required />
+          </div>
 
-<p>
-  <a href="{{ url_for('auth.login_get') }}">Already have an account? Log in</a>
-</p>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input name="email" type="email" class="form-control" required />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input
+              name="password"
+              type="password"
+              class="form-control"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">
+            Create account
+          </button>
+        </form>
+
+        <p class="mt-3 mb-0 text-center">
+          Already have an account?
+          <a href="{{ url_for('auth.login_get') }}">Log in</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
