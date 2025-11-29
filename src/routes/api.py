@@ -4,13 +4,14 @@ from flask import Blueprint, jsonify
 from flask_login import login_required, current_user
 
 from ..models import JournalEntry
+from ..external_api import fetch_random_quote
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 
 @api_bp.get("/sentiment-summary")
 @login_required
 def sentiment_summary():
- 
+    
     entries = JournalEntry.query.filter_by(user_id=current_user.id).all()
 
     labels = [e.sentiment_label for e in entries if e.sentiment_label]
@@ -20,7 +21,12 @@ def sentiment_summary():
     avg = sum(scores) / len(scores) if scores else 0.0
 
     return jsonify({
-        "total": len(entries),
-        "by_label": counts,
-        "average_score": avg,
+      "total": len(entries),
+      "by_label": counts,
+      "average_score": avg,
     })
+
+@api_bp.get("/quote")
+def quote():
+    quote = fetch_random_quote()
+    return jsonify(quote)

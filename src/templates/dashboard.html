@@ -1,91 +1,132 @@
-{% extends "base.html" %} {% block title %}Dashboard – Sentiment Journal{%
-endblock %} {% block content %}
+{% extends "base.html" %} {% block title %}Dashboard – Mood Journal{% endblock
+%} {% block content %}
 <h1 class="h3 mb-3">Sentiment Dashboard</h1>
 
-<div class="row">
-  <div class="col-lg-6">
-    <div class="card mb-3 shadow-sm">
-      <div class="card-body" id="summary">
-        <p>Loading sentiment stats...</p>
+  <!-- Summary and average -->
+  <div class="row mb-3">
+    <div class="col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body" id="summary">
+          <p>Loading sentiment stats...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quote -->
+    <div class="col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body" id="quoteCard">
+          <h2 class="h6 mb-3">Quote of the moment</h2>
+          <p class="mb-1" id="quoteText">Loading quote...</p>
+          <p class="mb-0 text-muted" id="quoteAuthor"></p>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="col-lg-6">
-    <div class="card mb-3 shadow-sm">
-      <div class="card-body">
-        <h2 class="h6 mb-3">Entries by sentiment</h2>
-        <canvas id="sentimentChart" height="150"></canvas>
+  <!-- Bar Chart -->
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card mb-3 shadow-sm chart-card">
+        <div class="card-body">
+          <h2 class="h6 mb-3">Entries by sentiment</h2>
+          <canvas id="sentimentChart" height="150"></canvas>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Chart -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script>
-  async function loadStats() {
-    try {
-      const resp = await fetch("/api/sentiment-summary");
-      if (!resp.ok) {
-        document.getElementById("summary").innerHTML =
-          '<div class="text-danger">Could not load stats (are you logged in?).</div>';
-        return;
-      }
-      const data = await resp.json();
+  <script>
+    async function loadStats() {
+      try {
+        const resp = await fetch("/api/sentiment-summary");
+        if (!resp.ok) {
+          document.getElementById("summary").innerHTML =
+            '<div class="text-danger">Could not load stats (are you logged in?).</div>';
+          return;
+        }
+        const data = await resp.json();
 
-      const total = data.total || 0;
-      const byLabel = data.by_label || {};
-      const avgScore = data.average_score || 0;
+        const total = data.total || 0;
+        const byLabel = data.by_label || {};
+        const avgScore = data.average_score || 0;
 
-      const summaryDiv = document.getElementById("summary");
-      let html = `<p class="mb-1">Total entries: <strong>${total}</strong></p>`;
-      html += `<p class="mb-1">Average sentiment score: <strong>${avgScore.toFixed(
-        2
-      )}</strong> <small class="text-muted">(−1 = very negative, +1 = very positive)</small></p>`;
-      if (total === 0) {
-        html += `<p class="text-muted mb-0">No entries yet – write a few and come back.</p>`;
-      }
-      summaryDiv.innerHTML = html;
+        const summaryDiv = document.getElementById("summary");
+        let html = `<p class="mb-1">Total entries: <strong>${total}</strong></p>`;
+        html += `<p class="mb-1">Average sentiment score: <strong>${avgScore.toFixed(
+          2
+        )}</strong> <small class="text-muted">(−1 = very negative, +1 = very positive)</small></p>`;
+        if (total === 0) {
+          html += `<p class="text-muted mb-0">No entries yet – write a few and come back.</p>`;
+        }
+        summaryDiv.innerHTML = html;
 
-      const labels = Object.keys(byLabel);
-      const counts = Object.values(byLabel);
+        const labels = Object.keys(byLabel);
+        const counts = Object.values(byLabel);
 
-      if (labels.length === 0) {
-        document.getElementById("sentimentChart").style.display = "none";
-        return;
-      }
+        if (labels.length === 0) {
+          document.getElementById("sentimentChart").style.display = "none";
+          return;
+        }
 
-      const ctx = document.getElementById("sentimentChart").getContext("2d");
-      new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: labels,
-          datasets: [
-            {
-              label: "Number of entries",
-              data: counts,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: { precision: 0 },
+        const ctx = document.getElementById("sentimentChart").getContext("2d");
+        new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "Number of entries",
+                data: counts,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: { precision: 0 },
+              },
             },
           },
-        },
-      });
-    } catch (err) {
-      console.error(err);
-      document.getElementById("summary").innerHTML =
-        '<div class="text-danger">Error. Login to access.</div>';
+        });
+      } catch (err) {
+        console.error(err);
+        document.getElementById("summary").innerHTML =
+          '<div class="text-danger">Error loading stats in the browser.</div>';
+      }
     }
-  }
 
-  loadStats();
-</script>
-{% endblock %}
+    async function loadQuote() {
+      try {
+        const resp = await fetch("/api/quote");
+        if (!resp.ok) {
+          document.getElementById("quoteText").textContent =
+            "Could not load quote right now.";
+          return;
+        }
+        const data = await resp.json();
+        document.getElementById("quoteText").textContent =
+          data.text || "No quote available.";
+        if (data.author) {
+          document.getElementById("quoteAuthor").textContent =
+            "— " + data.author;
+        } else {
+          document.getElementById("quoteAuthor").textContent = "";
+        }
+      } catch (err) {
+        console.error(err);
+        document.getElementById("quoteText").textContent =
+          "Error loading quote from server.";
+      }
+    }
+
+    loadStats();
+    loadQuote();
+  </script>
+  {% endblock %}
+</div>
