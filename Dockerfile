@@ -22,6 +22,8 @@ RUN python -m nltk.downloader vader_lexicon
 COPY src/ ./src
 COPY instance/ ./instance
 
+RUN mkdir -p instance
+
 # Environment variables
 ENV FLASK_APP=src/app.py
 ENV FLASK_RUN_HOST=0.0.0.0
