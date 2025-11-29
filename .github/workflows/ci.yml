@@ -24,7 +24,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Run tests. Skip Selenium e2e test in CI
+      - name: Download NLTK VADER lexicon
+        run: |
+          python - << "EOF"
+          import nltk
+          nltk.download("vader_lexicon")
+          EOF
+
+      # Run tests (skip Selenium e2e in CI)
       - name: Run pytest (unit + integration)
         run: |
-          pytest -k "not test_homepage_e2e"
+          pytest -k "not homepage_e2e"

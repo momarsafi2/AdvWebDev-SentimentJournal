@@ -13,7 +13,6 @@ api_bp = Blueprint("api", __name__, url_prefix="/api")
 @api_bp.get("/entries")
 @login_required
 def api_get_entries():
-    """Return all journal entries for the current user as JSON."""
     entries = (
         JournalEntry.query
         .filter_by(user_id=current_user.id)
@@ -36,7 +35,6 @@ def api_get_entries():
 @api_bp.post("/entries")
 @login_required
 def api_create_entry():
-    """Create a new journal entry via JSON payload."""
     payload = request.get_json() or {}
     text = (payload.get("text") or "").strip()
 
