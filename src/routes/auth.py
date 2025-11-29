@@ -2,10 +2,10 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from ..extensions import db
 from ..models import User
-from ..app import db
 
-auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
+auth_bp = Blueprint("auth", __name__)
 
 @auth_bp.get("/register")
 def register_get():
@@ -49,6 +49,7 @@ def login_post():
     password = request.form.get("password", "")
 
     user = User.query.filter_by(username=username).first()
+
     if not user or not check_password_hash(user.password_hash, password):
         flash("Invalid username or password.", "error")
         return redirect(url_for("auth.login_get"))
