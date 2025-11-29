@@ -9,3 +9,16 @@ body {
 .navbar-brand img {
   border-radius: 3px;
 }
+
+.my-navbar {
+  background-color: #748197;
+}
+
+.my-navbar .navbar-brand,
+.my-navbar .nav-link {
+  color: #0e141b;
+}
+
+.my-navbar .nav-link:hover {
+  color: #303a47;
+}

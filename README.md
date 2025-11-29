@@ -4,7 +4,7 @@
 
 https://advwebdev-sentimentjournal.onrender.com
 
-(Free Render instance – may spin down when inactive)
+The Render service may take a few seconds to start up after inactivity.
 
 ## Overview
 
@@ -139,7 +139,7 @@ GET /api/quote
 2. Create New Journal Entries: Users can write and save mood or reflection entries with automatic timestamps.
 3. Edit & Delete Entries: Full CRUD support. Users can update or remove their journal entries anytime.
 4. Sentiment Analysis (VADER) Integration: Each entry is automatically analyzed to generate a sentiment score and label (positive, neutral, negative).
-5. Dashboard Overview (Analytics Page):The Dashboard summarizes the user’s mood history. Includes: Total number of journal entries, average sentiment score, count of positive, neutral, and negative entries. Also visual chart/graph (via Chart.js) to show sentiment trends over time.
+5. Dashboard Overview (Analytics Page): The Dashboard summarizes the user’s mood history. Includes: Total number of journal entries, average sentiment score, count of positive, neutral, and negative entries. Also visual chart/graph (via Chart.js) to show sentiment trends over time.
 6. External Quote Integration: Fetches a new motivational quote from an external API to inspire the user on the dashboard.
 
 ## Performance Optimization (PageSpeed Insights)
