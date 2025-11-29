@@ -20,7 +20,7 @@ RUN python -m nltk.downloader vader_lexicon
 
 # Copy code
 COPY src/ ./src
-COPY instance/ ./instance
+# COPY instance/ ./instance
 
 RUN mkdir -p instance
 
