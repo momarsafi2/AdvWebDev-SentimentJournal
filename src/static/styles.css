@@ -5,3 +5,7 @@ body {
 .card {
   border-radius: 0.5rem;
 }
+
+.navbar-brand img {
+  border-radius: 3px;
+}

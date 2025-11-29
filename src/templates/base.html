@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>{% block title %}Sentiment Journal{% endblock %}</title>
+    <title>{% block title %}MoodFit Journal{% endblock %}</title>
 
     <!-- Bootstrap CSS -->
     <link
@@ -11,16 +11,31 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
     />
   </head>
-  <body class="">
+
+  <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
       <div class="container">
-        <a class="navbar-brand" href="{{ url_for('main.index') }}"
-          >Sentiment Journal</a
+        <a
+          class="navbar-brand d-flex align-items-center"
+          href="{{ url_for('main.index') }}"
         >
+          <!-- Logo -->
+          <img
+            src="{{ url_for('static', filename='img/logo1.png') }}"
+            alt="MoodFit logo"
+            width="50"
+            height="50"
+            class="me-2"
+          />
+          <strong>MoodFit</strong>
+        </a>
+
         <button
           class="navbar-toggler"
           type="button"
@@ -35,6 +50,9 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('entries.list_entries') }}"
                 >My Entries</a
