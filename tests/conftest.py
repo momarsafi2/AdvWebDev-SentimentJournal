@@ -9,7 +9,6 @@ if PROJECT_ROOT not in sys.path:
 from src.app import create_app
 from src.extensions import db as _db
 
-
 @pytest.fixture
 def app():
     app = create_app()

@@ -31,7 +31,7 @@ jobs:
           nltk.download("vader_lexicon")
           EOF
 
-      # Run tests (skip Selenium e2e in CI)
+      # Run tests. Skip Selenium e2e in CI
       - name: Run pytest (unit + integration)
         run: |
           pytest -k "not homepage_e2e"
