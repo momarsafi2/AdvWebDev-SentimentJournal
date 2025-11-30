@@ -6,9 +6,15 @@ https://advwebdev-sentimentjournal.onrender.com
 
 The Render service may take a few seconds to start up after inactivity.
 
-## Overview
+## Introduction
 
-A Flask web app for journaling, mood tracking, sentiment analysis and dashboard visualization.
+MoodFit is a sentiment journaling app that lets users write daily reflections, track mood changes, and view emotional trends. Each entry is analyzed with VADER sentiment analysis, and the system includes authentication, full CRUD support, analytics dashboards, external quote API integration, and automated testing.
+
+## System Overview
+
+MoodFit is built as a modular Flask application that includes secure user authentication, journal entry storage in an SQLite database using SQLAlchemy as the ORM, automatic sentiment analysis for each entry, and a dynamic dashboard that visualizes emotional trends. The system also integrates an external API for motivational quotes, provides a REST API for front-end communication, and supports CI/CD through GitHub Actions. Deployment is fully Docker-compatible, and the project follows a clean MVC-style structure within the src/ directory.
+
+## Architecture Diagrams
 
 ## How to Run (Locally)
 
@@ -63,7 +69,7 @@ flask --app src run
 http://127.0.0.1:5000
 ```
 
-## Running with Docker
+## Run with Docker
 
 ## 1. Build image
 
@@ -115,7 +121,7 @@ Automatically runs when you push:
 - Skips Selenium in CI
 - Shows pass/fail badge
 
-## API Endpoints
+## API Specifications
 
 GET /api/sentiment-summary
 
@@ -142,10 +148,34 @@ GET /api/quote
 5. Dashboard Overview (Analytics Page): The Dashboard summarizes the user’s mood history. Includes: Total number of journal entries, average sentiment score, count of positive, neutral, and negative entries. Also visual chart/graph (via Chart.js) to show sentiment trends over time.
 6. External Quote Integration: Fetches a new motivational quote from an external API to inspire the user on the dashboard.
 
-## Performance Optimization (PageSpeed Insights)
+## How to Use the Application
+
+1. In the home page, click **Get started** or **Register** to create a new account.
+2. Log in using your email and password.
+3. Navigate to **My Entries**.
+4. Click **New entry** to write and save a journal entry.
+5. The system automatically performs sentiment analysis after saving.
+6. The dashboard updates charts and mood statistics based on your entries.
+7. You can view, edit, or delete any past entries.
+8. Refresh the dashboard to load a new quote.
 
 ## Screenshots
 
+## **Home Page**
+
+![Home](screenshots/home.png)
+
+## **Register**
+
+![Register](screenshots/register.png)
+
+## **Login**
+
+![Login](screenshots/login.png)
+
+## Performance Optimization (PageSpeed Insights)
+
 ## Group Members
 
-Omar Safi, Roya Salihi
+- Omar Safi
+- Roya Salihi

@@ -1,3 +1,5 @@
+from zoneinfo import ZoneInfo  
+
 from flask import Blueprint, render_template, request, redirect, url_for, abort
 from flask_login import login_required, current_user
 
@@ -16,6 +18,13 @@ def list_entries():
         .order_by(JournalEntry.created_at.desc())
         .all()
     )
+    
+    # Time zone
+    toronto_tz = ZoneInfo("America/Toronto")
+    utc_tz = ZoneInfo("UTC")
+
+    for e in entries:
+        e.local_created_at = e.created_at.replace(tzinfo=utc_tz).astimezone(toronto_tz)
     return render_template("entries.html", entries=entries)
 
 @entries_bp.get("/new")
