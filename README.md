@@ -153,11 +153,11 @@ GET /api/quote
 1. In the home page, click **Get started** or **Register** to create a new account.
 2. Log in using your email and password.
 3. Navigate to **My Entries**.
-4. Click **New entry** to write and save a journal entry.
+4. Click **New entry** to write and then save a journal entry.
 5. The system automatically performs sentiment analysis after saving.
-6. The dashboard updates charts and mood statistics based on your entries.
+6. Navigate to the **Dashboard** to see a motivational quote, updated charts and mood statistics based on your entries.
 7. You can view, edit, or delete any past entries.
-8. Refresh the dashboard to load a new quote.
+8. Refresh the dashboard page to load a new motivational quote.
 
 ## Screenshots
 
@@ -172,6 +172,14 @@ GET /api/quote
 ## **Login**
 
 ![Login](screenshots/login.png)
+
+## **My Entries**
+
+![My_Entries](screenshots/my_entries.png)
+
+## **Dashboard**
+
+![Dashboard](screenshots/dashboard.png)
 
 ## Performance Optimization (PageSpeed Insights)
 
