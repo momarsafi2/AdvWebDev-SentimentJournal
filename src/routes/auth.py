@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from ..extensions import db
 from ..models import User
 
+# Authentication blueprint (register, login, logout)
 auth_bp = Blueprint("auth", __name__)
 
 @auth_bp.get("/register")

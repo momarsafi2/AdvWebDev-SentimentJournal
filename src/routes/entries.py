@@ -7,6 +7,7 @@ from ..models import JournalEntry
 from ..extensions import db
 from ..sentiment import analyze_sentiment
 
+# Blueprint for journal entries
 entries_bp = Blueprint("entries", __name__, url_prefix="/entries")
 
 @entries_bp.get("/")
@@ -19,7 +20,7 @@ def list_entries():
         .all()
     )
     
-    # Time zone
+    # Convert time zone from UTC to local (EST)
     toronto_tz = ZoneInfo("America/Toronto")
     utc_tz = ZoneInfo("UTC")
 

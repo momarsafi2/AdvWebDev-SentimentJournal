@@ -6,6 +6,9 @@ import requests
 QUOTE_API_URL = "https://zenquotes.io/api/random"
 
 def fetch_random_quote() -> Dict[str, Optional[str]]:
+    """
+    Fetch a random motivational quote from the external API.
+    """
     try:
         resp = requests.get(QUOTE_API_URL, timeout=10)
         resp.raise_for_status()

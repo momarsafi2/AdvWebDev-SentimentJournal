@@ -191,8 +191,6 @@ GET /api/quote
 
 ![Dashboard](screenshots/dashboard.png)
 
-## Performance Optimization (PageSpeed Insights)
-
 ## Group Members
 
 - Omar Safi - 100830933

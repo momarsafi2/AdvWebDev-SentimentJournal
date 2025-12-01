@@ -8,6 +8,7 @@ from ..models import JournalEntry
 from ..external_api import fetch_random_quote
 from ..sentiment import analyze_sentiment
 
+# API blueprint for entries, sentiment stats, and quotes
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 
 @api_bp.get("/entries")

@@ -5,7 +5,7 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 _sia = SentimentIntensityAnalyzer()
 
 def analyze_sentiment(text: str) -> Tuple[float, str]:
-
+    # Get VADER polarity scores for the text
     scores = _sia.polarity_scores(text)
     compound = scores["compound"]
 
