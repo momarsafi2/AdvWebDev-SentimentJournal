@@ -16,6 +16,16 @@ MoodFit is built as a modular Flask application that includes secure user authen
 
 ## Architecture Diagrams
 
+## UML Package Diagram
+
+![Package Diagram](Diagrams/screenshots/package.png)
+Figure 1. Package-level architecture showing the main modules of the MoodFit system.
+
+## UML Class Diagram
+
+![Class Diagram](Diagrams/screenshots/umldiagram.png)
+Figure 2. Data model showing User-JournalEntry relationship.
+
 ## How to Run (Locally)
 
 ## Step 1
@@ -185,5 +195,5 @@ GET /api/quote
 
 ## Group Members
 
-- Omar Safi
+- Omar Safi - 100830933
 - Roya Salihi
