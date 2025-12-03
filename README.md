@@ -195,3 +195,7 @@ GET /api/quote
 
 - Omar Safi - 100830933
 - Roya Salihi
+
+## Video Presentation
+
+https://www.youtube.com/watch?v=Ul6RiNVPNvk
